@@ -1,0 +1,79 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\ASUS> mongosh
+Current Mongosh Log ID: 653554ff55aa51eebab92adb
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.2
+Using MongoDB:          7.0.2
+Using Mongosh:          2.0.2
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-10-22T17:18:14.350+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use abhi
+switched to db abhi
+abhi> db.createCollection('student')
+{ ok: 1 }
+abhi>
+
+abhi> db.student.insert({Name:'Abhi',Dept:'cs',Fees:2000})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("65355b3255aa51eebab92adc") }
+}
+abhi> db.student.insert({Name:'yash',Dept:'it',Fees:3000})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("65355b4855aa51eebab92add") }
+}
+abhi> db.student.insert({Name:'ram',Dept:'mech',Fees:4000})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("65355b6a55aa51eebab92ade") }
+}
+abhi> db.student.insert({Name:'sham',Dept:'civil',Fees:5000})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("65355b9955aa51eebab92adf") }
+}
+abhi> db.student.insert({Name:'omiee',Dept:'cs',Fees:31500})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("65355bb655aa51eebab92ae0") }
+}
+abhi> db.student.aggregate({$group:{_id:"$Dept",sum:{$sum:"$Fees"}}})
+[
+  { _id: 'civil', sum: 5000 },
+  { _id: 'it', sum: 3000 },
+  { _id: 'cs', sum: 33500 },
+  { _id: 'mech', sum: 4000 }
+]
+abhi> db.student.aggregate({$group:{_id:"$Dept",min:{$min:"$Fees"}}})
+[
+  { _id: 'civil', min: 5000 },
+  { _id: 'it', min: 3000 },
+  { _id: 'cs', min: 2000 },
+  { _id: 'mech', min: 4000 }
+]
+abhi> db.student.aggregate({$group:{_id:"$Dept",max:{$max:"$Fees"}}})
+[
+  { _id: 'it', max: 3000 },
+  { _id: 'cs', max: 31500 },
+  { _id: 'civil', max: 5000 },
+  { _id: 'mech', max: 4000 }
+]
+abhi> db.student.aggregate({$group:{_id:"$Dept",avg:{$avg:"$Fees"}}})
+[
+  { _id: 'it', avg: 3000 },
+  { _id: 'mech', avg: 4000 },
+  { _id: 'civil', avg: 5000 },
+  { _id: 'cs', avg: 16750 }
+]
+abhi>

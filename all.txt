@@ -1,0 +1,35 @@
+11.map reduce
+
+var map=function(){emit(this.id,this.price)}
+var reduce=function (id,price){return Array.sum(price)}db.movie.mapReduce(map,reduce,{out:'Total'})
+db.Total.find()
+
+10.aggregate
+
+db.student.aggregate({$group:{_id:"$Dept",sum:{$sum:"$Fees"}}})
+
+9.CURD
+db.stu.update({Name:'Abhi'},{$set:{id:11}})
+
+4.borrower
+delimiter $
+create procedure calc_fine_lib(in roll int)
+begin
+declare finel int;
+declare noofdays int;
+declare issuedate date;
+declare exit handler for SQLEXCEPTION select create table definition;
+select issue date into issuedate from borrower where roll in-roll;
+select datediff(curdate(), issuedate) into noofdays;
+if noofdays>15 and noofdays<=30 then
+set finel-noofdays*5;
+insert into fine values (roll, curdate(), finel);
+elseif noofdays>30 then set finel=((noofdays-30)*50)+15+5;
+insert into fine values (roll, curdate(), finel);
+else
+insert into fine values (roll, curdate(), 0);
+end if;
+update borrower set status='return where roll in=roll;
+end $
+
+5.update ab SET Address='sk' where id=101;

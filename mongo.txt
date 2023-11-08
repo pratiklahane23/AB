@@ -1,0 +1,89 @@
+import com.mongodb.client.MongoClient; 
+import com.mongodb.client.MongoClients; 
+import com.mongodb.client.MongoCollec#on; 
+import com.mongodb.client.MongoCursor; 
+import com.mongodb.client.MongoDatabase; 
+import com.mongodb.client.model.Filters; 
+import com.mongodb.client.model.Updates; 
+import java.u#l.Scanner; 
+import org.bson.Document; 
+public class mongoo { 
+void Insert(){ 
+} 
+ public sta#c void main(String[] args) { 
+ Scanner sc = new Scanner(System.in); 
+ // Create a MongoDB client 
+ MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017"); 
+ // Get a database 
+ MongoDatabase database = mongoClient.getDatabase("abhi"); 
+ // Get a collec#on 
+ MongoCollec#on collec#on = database.getCollec#on("Student"); 
+ int response = 0; 
+ while(response != 5){ 
+ MongoCursor cursor = collec#on.find().iterator(); 
+ System.out.println("1. Display"); 
+ System.out.println("2. Insert"); 
+ System.out.println("3. Update"); 
+ System.out.println("4. Delete"); 
+ System.out.println("5. Exit"); 
+ response = sc.nextInt(); 
+ switch(response){ 
+ case 1: 
+ // Query the collec#on 
+ while (cursor.hasNext()) { 
+ Document document = (Document) cursor.next(); 
+ // Access and process the data in the document 
+ String studentName = document.getString("name"); 
+ String studentDiv = document.getString("Div"); 
+ System.out.println("Name: " + studentName + ", Div: " + studentDiv); 
+ } 
+ cursor.close(); 
+ break; 
+ case 2: 
+ String Name; 
+ String Div; 
+ System.out.println("Enter Name: "); 
+ Name = sc.next(); 
+ System.out.println("Enter Div: "); 
+ Div = sc.next(); 
+ Document doc1 = new Document("name", Name). append("Div", Div); 
+ collec#on.insertOne(doc1); 
+ break; 
+ case 3: 
+ int response2; 
+ String updE; 
+ String updN; 
+ System.out.println("1. Update Name"); 
+ System.out.println("2. Update Div"); 
+ response2 = sc.nextInt(); 
+ if(response2 == 1){ 
+ System.out.println("Enter value to update: "); 
+ updE = sc.next(); 
+ System.out.println("Enter value: "); 
+ updN = sc.next(); 
+ collec#on.updateOne(Filters.eq("Div", updE), Updates.set("Name", updN)); 
+ } 
+ else if(response2 == 2){ 
+ System.out.println("Enter value to update "); 
+ updE = sc.next(); 
+ System.out.println("Enter value: "); 
+ updN = sc.next(); 
+ collec#on.updateOne(Filters.eq("Name", updN), Updates.set("Div", updE)); 
+ } 
+ break; 
+ case 4: 
+ System.out.println("Enter: "); 
+ String Name1 = sc.next(); 
+ collec#on.deleteOne(Filters.eq("name", Name1 )); 
+ break; 
+ case 5: 
+ // Close the MongoDB client 
+ sc.close(); 
+ mongoClient.close(); 
+ break; 
+ default: 
+ System.out.println("Incorrect Response"); 
+ } 
+ } 
+ } 
+}

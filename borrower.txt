@@ -1,0 +1,21 @@
+create procedure fine_calci_lib2(in roll int)
+Begin
+Declare fine_amt int;
+Declare no_of_days int;
+Declare issue_date Date;
+Declare exit handler for SQLEXCEPTION select'create table 
+defination';
+select Date_Of_Issue into issue_date from Borrower where 
+Roll_in=roll;
+select datediff(curdate(),issue_date) into no_of_days;
+if no_of_days > 15 and no_of_days <= 30 then
+set fine_amt = no_of_days * 5;
+insert into Fine values(roll,curdate(),fine_amt);
+elseif no_of_days > 30 then
+set fine_amt=((no_of_days - 30) * 50) + 15*5;
+insert into Fine values(roll,curdate(),fine_amt);
+else
+insert into Fine values(roll,curdate(),0);
+end if;
+update Borrower set Status="R" where Roll_in=roll;
+end $

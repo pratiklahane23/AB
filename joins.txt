@@ -1,0 +1,21 @@
+SELECT C.customer_name AS CustomerName, C.city AS CustomerCity, S.name AS SalesmanName
+FROM Customers C
+INNER JOIN Salesman S ON C.city = S.city;
+
+SELECT C.customer_name AS CustomerName, S.name AS SalesmanName
+FROM Customers C
+INNER JOIN Salesman S ON C.Saleman_id = S.Saleman_id;
+
+SELECT O.ord_no, O.ord_date, O.purch_amt
+FROM Orders O
+LEFT JOIN Customers C ON O.Customer_id = C.Customer_id
+LEFT JOIN Salesman S ON O.Saleman_id = S.Saleman_id
+WHERE C.city <> S.city OR C.city IS NULL;
+
+SELECT ord_no, ord_date, purch_amt
+FROM Orders
+WHERE ord_date = '2012-10-10' AND purch_amt > (SELECT AVG(purch_amt) FROM Orders WHERE ord_date = '2012-10-10');
+
+SELECT ord_no, ord_date, purch_amt
+FROM Orders
+WHERE Saleman_id IN (SELECT Saleman_id FROM Salesman WHERE city = 'Paris');
